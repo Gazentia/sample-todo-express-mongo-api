@@ -1,6 +1,7 @@
 const Todo = require("../models/todo.model");
 exports.getTodoList = (req, res, next) => {
   Todo.find()
+    .populate("userId", "username")
     .then((todos) => {
       res.status(200).json(todos);
     })
@@ -11,6 +12,7 @@ exports.getTodoList = (req, res, next) => {
 
 exports.getTodo = (req, res, next) => {
   Todo.findById(req.params.id)
+    .populate("userId", "username")
     .then((todo) => {
       res.status(200).json(todo);
     })
@@ -44,7 +46,7 @@ exports.updateTodo = (req, res, next) => {
 };
 
 exports.deleteTodo = (req, res, next) => {
-    Todo.findByIdAndDelete(req.params.id, { ...req.body })
+  Todo.findByIdAndDelete(req.params.id, { ...req.body })
     .then((result) => {
       res.status(200).json(result);
     })

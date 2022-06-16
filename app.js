@@ -2,12 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const todoRoutes = require("./routes/todo.route");
+const userRoutes = require("./routes/user.route");
 
 const app = express();
 
 app.use([express.json(), express.urlencoded({ extended: true })]); // Express >= 4.16.0
 
 app.use("/todos", todoRoutes);
+app.use("/users", userRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);
