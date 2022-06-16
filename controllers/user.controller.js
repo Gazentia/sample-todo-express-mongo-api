@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
 exports.getUserList = (req, res, next) => {
   User.find()
@@ -25,8 +26,12 @@ exports.createUser = (req, res, next) => {
   const user = new User({
     ...req.body,
   });
-  user
-    .save()
+  bcrypt
+    .hash(user.password, 12)
+    .then((hashedPassword) => {
+      user.password = hashedPassword;
+      return user.save();
+    })
     .then((result) => {
       res.status(201).json(result);
     })
